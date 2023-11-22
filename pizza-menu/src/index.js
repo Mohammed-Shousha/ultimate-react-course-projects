@@ -84,11 +84,18 @@ function Menu() {
       {/* {numPizzas && ( // if equal to 0, it will render 0 */}
       {/* {numPizzas > 0 && ( // if equal to 0, it will not render 0 (false "React does not render false") */}
       {numPizzas > 0 ? (
-        <ul className='pizzas'>
-          {pizzaData.map((pizza) => (
-            <Pizza pizza={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          {/* OR <React.Fragment key={someKey}> if we need to pass a key to it*/}
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <ul className='pizzas'>
+            {pizzaData.map((pizza) => (
+              <Pizza pizza={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p> We're still working on our menu. Please come back later :)</p>
       )}
