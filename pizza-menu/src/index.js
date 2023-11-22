@@ -77,34 +77,29 @@ function Menu() {
   return (
     <main className='menu'>
       <h2>Our Menu</h2>
-      <Pizza
-        name='Pizza Margherita'
-        ingredients='Tomato and mozarella'
-        photo='pizzas/margherita.jpg'
-        price={10}
-      />
-      <Pizza
-        name='Pizza Funghi'
-        ingredients='Tomato, mozarella, mushrooms, and onion'
-        photo='pizzas/funghi.jpg'
-        price={12}
-      />
+      <ul className='pizzas'>
+        {pizzaData.map((pizza) => (
+          <Pizza pizza={pizza} key={pizza.name} />
+        ))}
+      </ul>
     </main>
   );
 }
 
 function Pizza(props) {
   console.log(props);
-  const { name, ingredients, photo, price } = props;
+  const {
+    pizza: { name, ingredients, photoName, price },
+  } = props;
   return (
-    <div className='pizza'>
-      <img src={photo} alt={name} />
+    <li className='pizza'>
+      <img src={photoName} alt={name} />
       <div>
         <h3>{name}</h3>
         <p>{ingredients}</p>
         <span>{price}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
