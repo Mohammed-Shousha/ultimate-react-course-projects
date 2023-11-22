@@ -75,18 +75,22 @@ function Header() {
 
 function Menu() {
   const pizzas = pizzaData;
-  const numPizzas = pizzas.length - pizzas.length;
+  // const pizzas = [];
+  const numPizzas = pizzas.length;
   return (
     <main className='menu'>
       <h2>Our Menu</h2>
 
       {/* {numPizzas && ( // if equal to 0, it will render 0 */}
-      {numPizzas > 0 && ( // if equal to 0, it will not render 0 (false "React does not render false")
+      {/* {numPizzas > 0 && ( // if equal to 0, it will not render 0 (false "React does not render false") */}
+      {numPizzas > 0 ? (
         <ul className='pizzas'>
           {pizzaData.map((pizza) => (
             <Pizza pizza={pizza} key={pizza.name} />
           ))}
         </ul>
+      ) : (
+        <p> We're still working on our menu. Please come back later :)</p>
       )}
     </main>
   );
@@ -122,11 +126,16 @@ function Footer() {
   return (
     <footer className='footer'>
       {/* {new Date().toLocaleTimeString()}. We're currently open */}
-      {isOpen && ( // if true, it will render the second part of the && operator
+      {/* {isOpen && ( // if true, it will render the second part of the && operator */}
+      {isOpen ? (
         <div className='order'>
           <p>We're open until {closeHour}:00. Come visit us or order online.</p>
           <button className='btn'>Order</button>
         </div>
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+        </p>
       )}
     </footer>
   );
