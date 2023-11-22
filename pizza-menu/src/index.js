@@ -99,8 +99,11 @@ function Menu() {
 function Pizza(props) {
   console.log(props);
   const {
-    pizza: { name, ingredients, photoName, price },
+    pizza: { name, ingredients, photoName, price, soldOut },
   } = props;
+
+  if (soldOut) return null; // not rednering sold out pizzas
+
   return (
     <li className='pizza'>
       <img src={photoName} alt={name} />
@@ -122,6 +125,8 @@ function Footer() {
 
   //   if (isOpen) alert('We are open!');
   //   else alert('We are closed!');
+
+  // if (!isOpen) return <p>CLOSED</p>; // useful when we want to render entire compoenents not just a part of it
 
   return (
     <footer className='footer'>
