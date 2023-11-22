@@ -96,12 +96,7 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
-  console.log(props);
-  const {
-    pizza: { name, ingredients, photoName, price, soldOut },
-  } = props;
-
+function Pizza({ pizza: { name, ingredients, photoName, price, soldOut } }) {
   if (soldOut) return null; // not rednering sold out pizzas
 
   return (
@@ -133,7 +128,7 @@ function Footer() {
       {/* {new Date().toLocaleTimeString()}. We're currently open */}
       {/* {isOpen && ( // if true, it will render the second part of the && operator */}
       {isOpen ? (
-        <Order closeHour={closeHour} />
+        <Order openHour={openHour} closeHour={closeHour} />
       ) : (
         <p>
           We're happy to welcome you between {openHour}:00 and {closeHour}:00.
@@ -143,12 +138,13 @@ function Footer() {
   );
 }
 
-function Order(props) {
-  const { closeHour } = props;
-
+function Order({ openHour, closeHour }) {
   return (
     <div className='order'>
-      <p>We're open until {closeHour}:00. Come visit us or order online.</p>
+      <p>
+        We're open from {openHour}:00 to {closeHour}:00. Come visit us or order
+        online.
+      </p>
       <button className='btn'>Order</button>
     </div>
   );
