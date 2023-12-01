@@ -16,25 +16,6 @@ const textStyle = {
   margin: '0',
 };
 
-export default function StarRating({ maxRating = 5 }) {
-  const [rating, setRating] = useState(0);
-
-  function handleRating(rating) {
-    setRating(rating);
-  }
-
-  return (
-    <div style={containerStyle}>
-      <div style={starContainerStyle}>
-        {Array.from({ length: maxRating }, (_, i) => (
-          <Star key={i} onRate={() => handleRating(i + 1)} full={rating > i} />
-        ))}
-      </div>
-      <p style={textStyle}>{rating || ''}</p>
-    </div>
-  );
-}
-
 const starStyle = {
   width: '48px',
   height: '48px',
@@ -42,9 +23,49 @@ const starStyle = {
   cursor: 'pointer',
 };
 
-function Star({ onRate, full }) {
+export default function StarRating({ maxRating = 5 }) {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+
+  function handleRating(rating) {
+    setRating(rating);
+  }
+
+  function handleHoverIn(rating) {
+    setTempRating(rating);
+  }
+
+  function handleHoverOut() {
+    setTempRating(0);
+  }
+
   return (
-    <span role='button' style={starStyle} onClick={onRate}>
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            onHoverIn={() => handleHoverIn(i + 1)}
+            onHoverOut={handleHoverOut}
+            full={tempRating ? tempRating > i : rating > i}
+          />
+        ))}
+      </div>
+      <p style={textStyle}>{tempRating || rating || ''}</p>
+    </div>
+  );
+}
+
+function Star({ onRate, full, onHoverIn, onHoverOut }) {
+  return (
+    <span
+      role='button'
+      style={starStyle}
+      onClick={onRate}
+      onMouseEnter={onHoverIn}
+      onMouseLeave={onHoverOut}
+    >
       {full ? (
         <svg
           xmlns='http://www.w3.org/2000/svg'
