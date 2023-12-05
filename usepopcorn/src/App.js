@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const tempMovieData = [
   {
@@ -50,9 +50,17 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
+const KEY = '3264373c';
+
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+
+  useEffect(function () {
+    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=matrix`)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
 
   return (
     <>
@@ -62,25 +70,14 @@ export default function App() {
       </NavBar>
 
       <Main>
-        <Box element={<MovieList movies={movies} />} />
-
-        <Box
-          element={
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          }
-        />
-
-        {/* <Box>
+        <Box>
           <MovieList movies={movies} />
         </Box>
 
         <Box>
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
-        </Box> */}
+        </Box>
       </Main>
     </>
   );
@@ -129,7 +126,7 @@ function Main({ children }) {
   return <main className='main'>{children}</main>;
 }
 
-function Box({ element }) {
+function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -138,7 +135,7 @@ function Box({ element }) {
         {isOpen ? '-' : '+'}
       </button>
 
-      {isOpen && element}
+      {isOpen && children}
     </div>
   );
 }
