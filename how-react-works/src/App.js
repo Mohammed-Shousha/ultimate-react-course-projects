@@ -68,10 +68,39 @@ function TabContent({ item }) {
   const [showDetails, setShowDetails] = useState(true);
   const [likes, setLikes] = useState(0);
 
+  console.log('RENDER');
+
   function handleInc() {
-    setLikes(likes + 1);
+    // setLikes(likes + 1);
+
+    // always use the previous state to update the state to avoid stale state and unexpected behavior
+    setLikes((likes) => likes + 1);
   }
 
+  function handleTripleInc() {
+    // this won't work because state updates are asynchronous (likes will always be 0 'stale state')
+    // setLikes(likes + 1);
+    // setLikes(likes + 1);
+    // setLikes(likes + 1);
+
+    // this will work because we are using the previous state
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+  }
+
+  function handleUndo() {
+    // these state updates will be batched together (only one re-render)
+    setShowDetails(true);
+    setLikes(0);
+    // if these states doesn't change (showDetails === true && likes === 0) the component will not re-render
+    console.log(likes); // will be the old value not 0 (stale state)
+  }
+
+  function handleUndoLater() {
+    // in React 18 this will be batched together - batching happens not only in event handlers
+    setTimeout(handleUndo, 2000);
+  }
   return (
     <div className='tab-content'>
       <h4>{item.summary}</h4>
@@ -85,13 +114,13 @@ function TabContent({ item }) {
         <div className='hearts-counter'>
           <span>{likes} ❤️</span>
           <button onClick={handleInc}>+</button>
-          <button>+++</button>
+          <button onClick={handleTripleInc}>+++</button>
         </div>
       </div>
 
       <div className='tab-undo'>
-        <button>Undo</button>
-        <button>Undo in 2s</button>
+        <button onClick={handleUndo}>Undo</button>
+        <button onClick={handleUndoLater}>Undo in 2s</button>
       </div>
     </div>
   );
