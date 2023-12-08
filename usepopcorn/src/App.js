@@ -54,7 +54,7 @@ const average = (arr) =>
 const KEY = '3264373c';
 
 export default function App() {
-  const [query, setQuery] = useState('matrix');
+  const [query, setQuery] = useState('');
 
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
@@ -133,6 +133,7 @@ export default function App() {
         return;
       }
 
+      handleCloseMovie();
       fetchMovies();
 
       return function () {
@@ -314,6 +315,24 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
   useEffect(
     function () {
+      function handleEscape(e) {
+        if (e.key === 'Escape') {
+          onCloseMovie();
+          // console.log('CLOSING');
+        }
+      }
+
+      document.addEventListener('keydown', handleEscape);
+
+      return function () {
+        document.removeEventListener('keydown', handleEscape);
+      };
+    },
+    [onCloseMovie]
+  );
+
+  useEffect(
+    function () {
       async function getMovieDetails() {
         setIsLoading(true);
 
@@ -338,7 +357,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
       return function () {
         document.title = 'usePopcorn';
-        console.log(`Cleaned up ${title}`); // will display the movie title because of closure
+        // console.log(`Cleaned up ${title}`); // will display the movie title because of closure
       };
     },
     [title]
