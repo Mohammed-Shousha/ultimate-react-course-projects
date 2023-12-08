@@ -326,6 +326,11 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     function () {
       if (!title) return;
       document.title = `${title} | usePopcorn`;
+
+      return function () {
+        document.title = 'usePopcorn';
+        console.log(`Cleaned up ${title}`); // will display the movie title because of closure
+      };
     },
     [title]
   );
