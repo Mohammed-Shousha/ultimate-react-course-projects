@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import StarRating from './StarRating';
 import { useMovies } from './useMovies';
 import { useLocalStorageState } from './useLocalStorageState';
+import { useKey } from './useKey';
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -105,23 +106,12 @@ function Logo() {
 function SearchInput({ query, setQuery }) {
   const inputEl = useRef(null);
 
-  useEffect(
-    function () {
-      function handleEnter(e) {
-        if (document.activeElement === inputEl.current) return;
+  useKey('Enter', function () {
+    if (document.activeElement === inputEl.current) return;
 
-        if (e.key === 'Enter') {
-          inputEl.current.focus();
-          setQuery('');
-        }
-      }
-
-      document.addEventListener('keydown', handleEnter);
-
-      return () => document.removeEventListener('keydown', handleEnter);
-    },
-    [setQuery]
-  );
+    inputEl.current.focus();
+    setQuery('');
+  });
 
   return (
     <input
@@ -242,23 +232,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onCloseMovie();
   }
 
-  useEffect(
-    function () {
-      function handleEscape(e) {
-        if (e.key === 'Escape') {
-          onCloseMovie();
-          // console.log('CLOSING');
-        }
-      }
-
-      document.addEventListener('keydown', handleEscape);
-
-      return function () {
-        document.removeEventListener('keydown', handleEscape);
-      };
-    },
-    [onCloseMovie]
-  );
+  useKey('Escape', onCloseMovie);
 
   useEffect(
     function () {
