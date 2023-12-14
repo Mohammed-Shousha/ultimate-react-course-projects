@@ -239,6 +239,9 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   // Will cause an error because it will add a new state which will change the order of the hooks calls (change in the order of Hooks)
   // if (imdbRating > 8) [isTop, setIsTop] = useState(true);
 
+  // Will be false because React will only look at the initial state on the initial render - it will not update the state (we can solve this with useEffect, but using derived state is easier and cleaner)
+  // const [isTop, setIsTop] = useState(imdbRating > 8);
+
   function handleAdd() {
     const newWatchedMovie = {
       imdbID: selectedId,
