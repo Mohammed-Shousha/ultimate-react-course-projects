@@ -34,13 +34,15 @@ function formatDay(dateStr) {
 
 class App extends React.Component {
   state = {
-    location: 'egypt',
+    location: '',
     isLoading: false,
     displayLocation: '',
     weather: {},
   };
 
   fetchWeather = async () => {
+    if (this.state.location.length < 2) return this.setState({ weather: {} });
+
     try {
       this.setState({ isLoading: true });
 
@@ -75,6 +77,22 @@ class App extends React.Component {
 
   setLocation = (e) => this.setState({ location: e.target.value });
 
+  // useEffect with [] dependency array
+  componentDidMount() {
+    // this.fetchWeather();
+
+    this.setState({ location: localStorage.getItem('location') || '' });
+  }
+
+  // useEffect with [location] dependency array, but the componentDidUpdate() is not called when the component is first rendered
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.location !== prevState.location) {
+      this.fetchWeather();
+
+      localStorage.setItem('location', this.state.location);
+    }
+  }
+
   render() {
     return (
       <div className='app'>
@@ -83,7 +101,6 @@ class App extends React.Component {
           location={this.state.location}
           onChangeLocation={this.setLocation}
         />
-        <button onClick={this.fetchWeather}>Get Weather</button>
 
         {this.state.isLoading && <p className='loader'> Loading...</p>}
 
@@ -116,6 +133,11 @@ class Input extends React.Component {
 }
 
 class Weather extends React.Component {
+  // same as returning a cleanup function in useEffect, but componentWillUnmount() is only called when the component is unmounted not between renders
+  componentWillUnmount() {
+    console.log('Weather component unmounted');
+  }
+
   render() {
     const {
       weather: {
