@@ -31,6 +31,7 @@ function reducer(state, action) {
     case 'newAnswer':
       const question = state.questions[state.index];
       const isCorrect = question.correctOption === action.payload;
+
       return {
         ...state,
         answer: action.payload,
@@ -51,6 +52,13 @@ function reducer(state, action) {
         status: 'finished',
         highscore: newHighscore,
       };
+    case 'restart':
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: 'ready',
+        highscore: state.highscore,
+      };
     default:
       throw new Error('Unknown action type');
   }
@@ -65,6 +73,7 @@ export default function App() {
     (acc, question) => acc + question.points,
     0
   );
+
   useEffect(function () {
     fetch('http://localhost:8000/questions')
       .then((res) => res.json())
@@ -109,6 +118,7 @@ export default function App() {
             points={points}
             maxPossiblePoints={maxPossiblePoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
