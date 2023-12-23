@@ -1,40 +1,40 @@
 {
   "cities": [
     {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
+      "cityName": "Ras El Bar",
+      "country": "Egypt",
+      "emoji": "🇪🇬",
+      "date": "2023-12-22T17:54:49.942Z",
+      "notes": "The best city in the world!",
       "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
+        "lat": "31.50816044481826",
+        "lng": "31.831494942974825"
       },
-      "id": 73930385
+      "id": 98443201
     },
     {
-      "cityName": "Madrid",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
+      "cityName": "Mecca",
+      "country": "Saudi Arabia",
+      "emoji": "🇸🇦",
+      "date": "2023-12-22T17:58:23.115Z",
       "notes": "",
       "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
+        "lat": "21.390717972629897",
+        "lng": "39.83627995955417"
       },
-      "id": 17806751
+      "id": 98443206
     },
     {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
+      "cityName": "Kuwait City",
+      "country": "Kuwait",
+      "emoji": "🇰🇼",
+      "date": "2023-12-23T15:55:06.573Z",
+      "notes": "Childhood memories",
       "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
+        "lat": "29.33587670224473",
+        "lng": "47.632784122487884"
       },
-      "id": 98443197
+      "id": 98443207
     }
   ]
 }
