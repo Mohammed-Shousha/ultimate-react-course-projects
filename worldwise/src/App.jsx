@@ -6,6 +6,7 @@ import Pricing from './pages/Pricing';
 import AppLayout from './pages/AppLayout';
 import PageNotFound from './pages/PageNotFound';
 import Login from './pages/Login';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 import CityList from './components/CityList';
 import CountryList from './components/CountryList';
@@ -25,7 +26,14 @@ function App() {
             <Route path='product' element={<Product />} />
             <Route path='pricing' element={<Pricing />} />
             <Route path='login' element={<Login />} />
-            <Route path='app' element={<AppLayout />}>
+            <Route
+              path='app'
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Navigate to='cities' replace />} />
               <Route path='cities' element={<CityList />} />
               <Route path='cities/:id' element={<City />} />
