@@ -1,6 +1,13 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useMemo } from 'react';
 
 import { faker } from '@faker-js/faker';
+
+/* 
+Optimize Context only in case that 3 things are true at the same time:
+1) Context needs to change all the time
+2) The context has many consumers
+3) The app is actually slow and laggy
+*/
 
 function createRandomPost() {
   return {
@@ -22,10 +29,10 @@ function PostProvider({ children }) {
   const searchedPosts =
     searchQuery.length > 0
       ? posts.filter((post) =>
-          `${post.title} ${post.body}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        )
+        `${post.title} ${post.body}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      )
       : posts;
 
   function handleAddPost(post) {
@@ -35,16 +42,19 @@ function PostProvider({ children }) {
   function handleClearPosts() {
     setPosts([]);
   }
+
+  const value = useMemo(() => ({
+    posts: searchedPosts,
+    onAddPost: handleAddPost,
+    onClearPosts: handleClearPosts,
+    searchQuery,
+    setSearchQuery,
+  }), [searchedPosts, searchQuery])
+
   return (
     // 2. Provide value to child components
     <PostContext.Provider
-      value={{
-        posts: searchedPosts,
-        onAddPost: handleAddPost,
-        onClearPosts: handleClearPosts,
-        searchQuery,
-        setSearchQuery,
-      }}
+      value={value}
     >
       {children}
     </PostContext.Provider>
@@ -60,4 +70,5 @@ function usePosts() {
 
   return context;
 }
+
 export { PostProvider, usePosts };
