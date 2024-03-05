@@ -11,6 +11,8 @@ import ButtonText from '../../ui/ButtonText';
 
 import { useMoveBack } from '../../hooks/useMoveBack';
 import { useBooking } from './useBooking';
+import { useCheckout } from '../check-in-out/useCheckout';
+
 import Spinner from '../../ui/Spinner';
 
 const HeadingGroup = styled.div`
@@ -25,6 +27,8 @@ function BookingDetail() {
   const moveBack = useMoveBack();
 
   const navigate = useNavigate();
+
+  const { checkout, isCheckingOut } = useCheckout();
 
   if (isLoading) return <Spinner />;
 
@@ -54,6 +58,13 @@ function BookingDetail() {
             Check in
           </Button>
         )}
+
+        {status === 'checked-in' && (
+          <Button onClick={() => checkout(bookingId)} disabled={isCheckingOut}>
+            Check out
+          </Button>
+        )}
+
         <Button variation='secondary' onClick={moveBack}>
           Back
         </Button>
