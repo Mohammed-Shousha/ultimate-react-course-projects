@@ -65,6 +65,7 @@ function MenuItem({ pizza }) {
 }
 
 const htmlTemplate = readFileSync(`${__dirname}/index.html`, "utf8");
+const jsBundle = readFileSync(`${__dirname}/client.js`, "utf8");
 
 const server = createServer((req, res) => {
   const pathname = parse(req.url).pathname;
@@ -79,8 +80,11 @@ const server = createServer((req, res) => {
     });
 
     res.end(html);
-  } else if (pathname === "/about") {
-    res.end("About us");
+  } else if (pathname === "/client.js") {
+    res.writeHead(200, {
+      "Content-Type": "application/javascript",
+    });
+    res.end(jsBundle);
   } else {
     res.end("Not found");
   }
