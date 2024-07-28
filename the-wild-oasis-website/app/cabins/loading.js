@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <div className="grid items-center justify-center">
       <Spinner />
-      <p className="text-xl text-primary-200">Loading Cabins...</p>
+      <p className="text-xl text-primary-200">Loading Cabin...</p>
     </div>
   );
 }
