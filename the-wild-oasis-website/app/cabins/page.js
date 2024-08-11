@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import CabinList from "@/app/_components/CabinList";
 import Spinner from "@/app/_components/Spinner";
 import Filter from "@/app/_components/Filter";
+import ReservationReminder from "@/app/_components/ReservationReminder";
 
 // using searchParams will make the page dynamic, so the revalidate duration will have no effect
 
@@ -36,6 +37,7 @@ export default function Page({ searchParams }) {
       <Suspense fallback={<Spinner />} key={filter}>
         {/* key={filter} will show the fallback (Spinner) when the filter changes because by default the page navigations is wrapped in a transition and using the key prop will reset the Suspense boundary*/}
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );
