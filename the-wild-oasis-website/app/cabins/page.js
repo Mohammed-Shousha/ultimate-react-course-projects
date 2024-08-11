@@ -2,14 +2,19 @@ import { Suspense } from "react";
 
 import CabinList from "@/app/_components/CabinList";
 import Spinner from "@/app/_components/Spinner";
+import Filter from "@/app/_components/Filter";
 
-export const revalidate = 3600; // revalidate every hour (ISR)
+// using searchParams will make the page dynamic, so the revalidate duration will have no effect
+
+// export const revalidate = 3600; // revalidate every hour (ISR)
 
 export const metadata = {
   title: "Cabins",
 };
 
-export default function Page() {
+export default function Page({ searchParams }) {
+  const filter = searchParams?.capacity ?? "all";
+
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -24,8 +29,13 @@ export default function Page() {
         to paradise.
       </p>
 
-      <Suspense fallback={<Spinner />}>
-        <CabinList />
+      <div className="flex justify-end mb-8">
+        <Filter />
+      </div>
+
+      <Suspense fallback={<Spinner />} key={filter}>
+        {/* key={filter} will show the fallback (Spinner) when the filter changes because by default the page navigations is wrapped in a transition and using the key prop will reset the Suspense boundary*/}
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   );
