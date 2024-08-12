@@ -1,10 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { format, formatDistance, isPast, isToday, parseISO } from "date-fns";
 
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
-import DeleteReservation from "./DeleteReservation";
-import Link from "next/link";
+import DeleteReservation from "@/app/_components/DeleteReservation";
 
 export const formatDistanceFromNow = (dateStr) =>
   formatDistance(parseISO(dateStr), new Date(), {
@@ -73,7 +73,7 @@ function ReservationCard({ booking }) {
       </div>
 
       <div className="flex flex-col border-l border-primary-800 w-[100px]">
-        {!isPast(startDate) ? (
+        {!isPast(new Date(startDate)) ? (
           <>
             <Link
               href={`/account/reservations/edit/${id}`}
