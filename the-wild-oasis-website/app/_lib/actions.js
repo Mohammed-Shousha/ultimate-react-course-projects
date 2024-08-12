@@ -2,6 +2,7 @@
 
 import { supabase } from "@/app/_lib/supabase";
 import { signIn, signOut, auth } from "@/app/_lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function updateGuest(formData) {
   const session = await auth();
@@ -31,7 +32,7 @@ export async function updateGuest(formData) {
 
   if (error) throw new Error("Guest could not be updated");
 
-  console.log(data);
+  revalidatePath("/account/profile");
 }
 
 export async function signInAction() {
