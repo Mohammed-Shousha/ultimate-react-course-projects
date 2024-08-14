@@ -8,6 +8,7 @@ export async function getStaticProps() {
 
   return {
     props: { cabins },
+    revalidate: 3600, // 1 hour (ISR)
   };
 }
 
